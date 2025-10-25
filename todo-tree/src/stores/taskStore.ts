@@ -4,6 +4,7 @@ import type { Task, CreateTask } from '../types/Task';
 class TaskStore {
   tasks: Task[] = [];
   selectedTask: Task | null = null;
+  selectedTaskWithSubtasks: Task[] = []; 
 
   constructor() {
     makeAutoObservable(this);
@@ -28,20 +29,78 @@ class TaskStore {
 
   selectTask = (task: Task) => {
     this.selectedTask = task;
+    this.selectedTaskWithSubtasks = this.getAllSubtasks(task);
+  };
+
+
+  private getAllSubtasks = (task: Task): Task[] => {
+    const allTasks: Task[] = [task]; 
+    
+    const collectSubtasks = (currentTask: Task) => {
+      currentTask.subtasks.forEach(subtask => {
+        allTasks.push(subtask);
+        collectSubtasks(subtask); 
+      });
+    };
+    
+    collectSubtasks(task);
+    return allTasks;
+  };
+
+  isTaskSelected = (taskId: string): boolean => {
+    return this.selectedTaskWithSubtasks.some(task => task.id === taskId);
   };
 
   deleteTask = (taskId: string) => {
     this.deleteTaskRecursive(this.tasks, taskId);
     if (this.selectedTask?.id === taskId) {
       this.selectedTask = null;
+      this.selectedTaskWithSubtasks = [];
     }
   };
 
   toggleTask = (taskId: string) => {
     const task = this.findTask(taskId);
     if (task) {
-      task.completed = !task.completed;
+      const newCompletedState = !task.completed;
+      task.completed = newCompletedState;
+      this.toggleAllSubtasks(task, newCompletedState);
     }
+  };
+
+  toggleExpand = (taskId: string) => {
+    const task = this.findTask(taskId);
+    if (task) {
+      task.expanded = !task.expanded;
+    }
+  };
+
+  updateTaskTitle = (taskId: string, title: string) => {
+    const task = this.findTask(taskId);
+    if (task) {
+      task.title = title;
+    }
+  };
+
+  updateTaskDescription = (taskId: string, description: string) => {
+    if (this.selectedTask?.id === taskId) {
+      this.selectedTask.description = description;
+    }
+    
+    const updateRecursive = (tasks: Task[]): boolean => {
+      for (const task of tasks) {
+        if (task.id === taskId) {
+          task.description = description;
+          return true;
+        }
+        if (updateRecursive(task.subtasks)) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    updateRecursive(this.tasks);
   };
 
   private findAndAddSubtask = (tasks: Task[], parentId: string, newTask: Task): boolean => {
@@ -80,26 +139,14 @@ class TaskStore {
     }
     return null;
   };
-  updateTaskDescription = (taskId: string, description: string) => {
-  if (this.selectedTask?.id === taskId) {
-    this.selectedTask.description = description;
-  }
-  
-  const updateRecursive = (tasks: Task[]): boolean => {
-    for (const task of tasks) {
-      if (task.id === taskId) {
-        task.description = description;
-        return true;
-      }
-      if (updateRecursive(task.subtasks)) {
-        return true;
-      }
-    }
-    return false;
+
+  private toggleAllSubtasks = (task: Task, completed: boolean) => {
+    task.subtasks.forEach(subtask => {
+      subtask.completed = completed;
+      this.toggleAllSubtasks(subtask, completed);
+    });
   };
 
-  updateRecursive(this.tasks);
-};
 }
 
 export default new TaskStore();

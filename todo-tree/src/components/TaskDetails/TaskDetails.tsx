@@ -52,6 +52,14 @@ const TaskDetails: React.FC = observer(() => {
     }
   };
 
+  const handleAddSubtask = () => {
+    taskStore.addTask({ 
+      title: 'Новая подзадача',
+      description: '',
+      parentId: selectedTask.id 
+    });
+  };
+
   return (
     <div style={{ 
       height: '100%', 
@@ -82,7 +90,7 @@ const TaskDetails: React.FC = observer(() => {
           style={{ 
             margin: '0 0 20px 0', 
             color: '#1e293b', 
-            fontSize: '1.5rem', 
+            fontSize: '30px', 
             fontWeight: 600,
             cursor: 'pointer',
             padding: '8px',
@@ -144,6 +152,22 @@ const TaskDetails: React.FC = observer(() => {
       </div>
 
       <div style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
+        <button
+          onClick={handleAddSubtask}
+          style={{ 
+            padding: '10px 20px',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            backgroundColor: '#666666',
+            color: 'white',
+            fontSize: '0.875rem',
+            fontWeight: 500
+          }}
+        >
+          + Добавить подзадачу
+        </button>
+
         {isEditing ? (
           <>
             <button
@@ -153,7 +177,7 @@ const TaskDetails: React.FC = observer(() => {
                 border: 'none',
                 borderRadius: '6px',
                 cursor: 'pointer',
-                backgroundColor: '#10b981',
+                backgroundColor: '#666666',
                 color: 'white',
                 fontSize: '0.875rem',
                 fontWeight: 500
@@ -168,7 +192,7 @@ const TaskDetails: React.FC = observer(() => {
                 border: 'none',
                 borderRadius: '6px',
                 cursor: 'pointer',
-                backgroundColor: '#6b7280',
+                backgroundColor: '#666666',
                 color: 'white',
                 fontSize: '0.875rem',
                 fontWeight: 500
@@ -185,7 +209,7 @@ const TaskDetails: React.FC = observer(() => {
           style={{
             padding: '10px 20px',
             backgroundColor: '#666666',
-            color: '#000000',
+            color: '#ffffffff',
             border: 'none',
             borderRadius: '6px',
             cursor: 'pointer',

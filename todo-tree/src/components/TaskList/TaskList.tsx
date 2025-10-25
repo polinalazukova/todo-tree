@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import taskStore from '../../stores/taskStore';
+import TaskItem from '../TaskItem/TaskItem';
 
 const TaskList: React.FC = observer(() => {
   return (
@@ -49,35 +50,11 @@ const TaskList: React.FC = observer(() => {
           </div>
         ) : (
           taskStore.tasks.map((task) => (
-            <div key={task.id} style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              padding: '8px 12px', 
-              marginBottom: '4px',
-              borderRadius: '6px'
-            }}>
-              <input
-                type="checkbox"
-                checked={task.completed}
-                onChange={() => taskStore.toggleTask(task.id)}
-                style={{  marginRight: '12px',
-                  width: '18px', 
-                  height: '18px'}}
-              />
-              <div 
-                onClick={() => taskStore.selectTask(task)}
-                style={{ 
-                   flex: 1, 
-                  cursor: 'pointer',
-                  textDecoration: task.completed ? 'line-through' : 'none',
-                  color: task.completed ? '#94a3b8' : '#1e293b',
-                  fontSize: '20px', 
-                  fontWeight: '500'
-                }}
-              >
-                {task.title}
-              </div>
-            </div>
+            <TaskItem
+              key={task.id}
+              task={task}
+              level={0}
+            />
           ))
         )}
       </div>
