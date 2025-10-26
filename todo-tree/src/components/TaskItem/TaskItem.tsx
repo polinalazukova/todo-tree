@@ -30,11 +30,11 @@ const TaskItem: React.FC<TaskItemProps> = observer(({ task, level = 0 }) => {
   };
 
   const handleEditSave = () => {
-    if (editTitle.trim() && taskStore.updateTaskTitle) {
-      taskStore.updateTaskTitle(task.id, editTitle.trim());
-    }
-    setIsEditing(false);
-  };
+  if (editTitle.trim()) {
+    taskStore.updateTaskTitle(task.id, editTitle.trim()); 
+  }
+  setIsEditing(false);
+};
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {

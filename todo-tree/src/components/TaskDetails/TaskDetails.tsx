@@ -33,12 +33,12 @@ const TaskDetails: React.FC = observer(() => {
   };
 
   const handleSave = () => {
-    if (editTitle.trim()) {
-      selectedTask.title = editTitle.trim();
-    }
-    selectedTask.description = editDescription;
-    setIsEditing(false);
-  };
+  if (editTitle.trim()) {
+    taskStore.updateTaskTitle(selectedTask.id, editTitle.trim()); 
+  }
+  taskStore.updateTaskDescription(selectedTask.id, editDescription); 
+  setIsEditing(false);
+};
 
   const handleCancel = () => {
     setEditTitle(selectedTask.title);

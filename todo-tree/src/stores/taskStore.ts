@@ -8,30 +8,44 @@ class TaskStore {
 
   constructor() {
     makeAutoObservable(this);
+    this.loadFromLocalStorage(); 
   }
 
-  addTask = (data: CreateTask) => {
-    const newTask: Task = {
-      id: Math.random().toString(36).substr(2, 9),
-      title: data.title,
-      description: data.description || '',
-      completed: false,
-      subtasks: [],
-      expanded: true
-    };
-
-    if (data.parentId) {
-      this.findAndAddSubtask(this.tasks, data.parentId, newTask);
-    } else {
-      this.tasks.push(newTask);
+  private loadFromLocalStorage = () => {
+    const savedTasks = localStorage.getItem('tasks');
+    if (savedTasks) {
+      this.tasks = JSON.parse(savedTasks);
     }
   };
+
+  private saveToLocalStorage = () => {
+    localStorage.setItem('tasks', JSON.stringify(this.tasks));
+  };
+
+
+  addTask = (data: CreateTask) => {
+  const newTask: Task = {
+    id: Math.random().toString(36).substr(2, 9),
+    title: data.title,
+    description: data.description || '',
+    completed: false,
+    subtasks: [],
+    expanded: true
+  };
+
+  if (data.parentId) {
+    this.findAndAddSubtask(this.tasks, data.parentId, newTask);
+  } else {
+    this.tasks.push(newTask);
+  }
+
+  this.saveToLocalStorage(); 
+};
 
   selectTask = (task: Task) => {
     this.selectedTask = task;
     this.selectedTaskWithSubtasks = this.getAllSubtasks(task);
   };
-
 
   private getAllSubtasks = (task: Task): Task[] => {
     const allTasks: Task[] = [task]; 
@@ -57,6 +71,7 @@ class TaskStore {
       this.selectedTask = null;
       this.selectedTaskWithSubtasks = [];
     }
+    this.saveToLocalStorage(); 
   };
 
   toggleTask = (taskId: string) => {
@@ -65,6 +80,7 @@ class TaskStore {
       const newCompletedState = !task.completed;
       task.completed = newCompletedState;
       this.toggleAllSubtasks(task, newCompletedState);
+      this.saveToLocalStorage(); 
     }
   };
 
@@ -72,48 +88,53 @@ class TaskStore {
     const task = this.findTask(taskId);
     if (task) {
       task.expanded = !task.expanded;
+      this.saveToLocalStorage(); 
     }
   };
 
   updateTaskTitle = (taskId: string, title: string) => {
-    const task = this.findTask(taskId);
-    if (task) {
-      task.title = title;
-    }
+  const task = this.findTask(taskId);
+  if (task) {
+    task.title = title;
+    this.saveToLocalStorage();
+  }
   };
 
   updateTaskDescription = (taskId: string, description: string) => {
-    if (this.selectedTask?.id === taskId) {
-      this.selectedTask.description = description;
-    }
-    
-    const updateRecursive = (tasks: Task[]): boolean => {
-      for (const task of tasks) {
-        if (task.id === taskId) {
-          task.description = description;
-          return true;
-        }
-        if (updateRecursive(task.subtasks)) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    updateRecursive(this.tasks);
-  };
-
-  private findAndAddSubtask = (tasks: Task[], parentId: string, newTask: Task): boolean => {
+  
+  if (this.selectedTask?.id === taskId) {
+    this.selectedTask.description = description;
+  }
+  
+  const updateRecursive = (tasks: Task[]): boolean => {
     for (const task of tasks) {
-      if (task.id === parentId) {
-        task.subtasks.push(newTask);
+      if (task.id === taskId) {
+        task.description = description;
         return true;
       }
-      if (this.findAndAddSubtask(task.subtasks, parentId, newTask)) {
+      if (updateRecursive(task.subtasks)) {
         return true;
       }
     }
     return false;
+  };
+
+  if (updateRecursive(this.tasks)) {
+    this.saveToLocalStorage();
+  }
+  };
+
+  private findAndAddSubtask = (tasks: Task[], parentId: string, newTask: Task): boolean => {
+  for (const task of tasks) {
+    if (task.id === parentId) {
+      task.subtasks.push(newTask);
+      return true;
+    }
+    if (this.findAndAddSubtask(task.subtasks, parentId, newTask)) {
+      return true;
+    }
+  }
+  return false;
   };
 
   private deleteTaskRecursive = (tasks: Task[], taskId: string): boolean => {
@@ -146,7 +167,6 @@ class TaskStore {
       this.toggleAllSubtasks(subtask, completed);
     });
   };
-
 }
 
 export default new TaskStore();
