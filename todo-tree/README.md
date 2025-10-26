@@ -1,7 +1,7 @@
 # Todo Tree - Менеджер задач
 
 ## Онлайн версия
-Приложение доступно по адресу: https://ваш-username.github.io/todo-tree/
+Приложение доступно по адресу: https://polinalazukova.github.io/todo-tree
 
 ## Функциональность
 
@@ -18,7 +18,7 @@
 
 1. Клонируйте репозиторий
    ```bash
-   git clone https://github.com/ваш-username/todo-tree.git
+   git clone https://github.com/polinalazukova/todo-tree
    ```
 2. Перейдите в папку проекта
   ```bash
