@@ -1,73 +1,45 @@
-# React + TypeScript + Vite
+# Todo Tree - Менеджер задач
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Онлайн версия
+Приложение доступно по адресу: https://ваш-username.github.io/todo-tree/
 
-Currently, two official plugins are available:
+## Функциональность
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- ✅ Создание иерархических задач с подзадачами любого уровня вложенности
+- ✅ Автосохранение в браузере (localStorage)
+- ✅ Выделение родительской задачи и всех подзадач цветом
+- ✅ Редактирование названия и описания задач
+- ✅ Отметка выполнения с рекурсивным применением ко всем подзадачам
+- ✅ Удаление задач
 
-## React Compiler
+## Для разработчиков
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Локальный запуск
 
-## Expanding the ESLint configuration
+1. Клонируйте репозиторий
+   ```bash
+   git clone https://github.com/ваш-username/todo-tree.git
+   ```
+2. Перейдите в папку проекта
+  ```bash
+   cd todo-tree
+   ```
+3. Установите зависимости
+  ```bash
+   npm install
+   ```
+4. Запустите приложение
+  ```bash
+   npm run dev
+   ``` 
+5. Откройте браузер
+  Перейдите по адресу: http://localhost:5173
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Технологии
+React 18 + TypeScript
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Vite для сборки
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+MobX для управления состоянием
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+CSS-in-JS для стилей
