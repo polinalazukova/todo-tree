@@ -1,0 +1,17 @@
+[33mcommit 082709fe9bc38f60178067ac245f317013acb2b9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32msecond[m[33m)[m
+Author: polinalazukova <lazukovapolina75@gmail.com>
+Date:   Sat Oct 25 20:38:13 2025 +0500
+
+    добавлена возможность создания подзадач
+
+[33mcommit e629204227cb0fed17056b800d3505c19c6b5bef[m[33m ([m[1;31morigin/second[m[33m)[m
+Author: polinalazukova <lazukovapolina75@gmail.com>
+Date:   Fri Oct 24 16:08:49 2025 +0500
+
+    Добавлены компоненты и стили
+
+[33mcommit 9d6c55756c62fbc48f7dae9b005fc9b8ca11b17a[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: polinalazukova <lazukovapolina75@gmail.com>
+Date:   Wed Oct 22 00:00:06 2025 +0500
+
+    nitial commit for todo-tree basic structure
