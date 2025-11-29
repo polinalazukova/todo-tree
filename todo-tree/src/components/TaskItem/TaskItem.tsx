@@ -89,7 +89,7 @@ const TaskItem: React.FC<TaskItemProps> = observer(({ task, level = 0 }) => {
               color: '#000000',
               padding: '4px 8px',
               borderRadius: '4px',
-              fontSize: '25px',
+              fontSize: window.innerWidth < 768 ? '18px' : '25px',
               fontWeight: isSelected ? '600' : '400'
             }}
             onDoubleClick={handleEditStart}
