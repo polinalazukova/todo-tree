@@ -1,3 +1,28 @@
+.app {
+  display: flex;
+  height: 100vh;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8fafc;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.content {
+  width: 50%;
+  background-color: #CCCCCC;
+  overflow-y: auto;
+  margin: 0;
+}
+
 
 @media (max-width: 768px) {
   .app {
@@ -18,7 +43,6 @@
   }
 }
 
-/* Для очень маленьких экранов */
 @media (max-width: 480px) {
   .sidebar {
     height: 35%;
